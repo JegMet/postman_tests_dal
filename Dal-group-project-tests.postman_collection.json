@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "71127d66-9bee-4459-91a8-3a34f26fc80d",
+		"name": "Dal-group-project-tests",
+		"description": "Should have a return for every page, might need to switch out the token",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29618728"
+	},
+	"item": [
+		{
+			"name": "membership-page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" var jsonData = pm.response.json();\r",
+							" \r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"// Membership data structure\r",
+							"pm.test(\"Membership data has expected properties\", function () {\r",
+							"    var item = jsonData.data[0];\r",
+							"    pm.expect(item).to.have.property('id');\r",
+							"    pm.expect(item).to.have.property('title');\r",
+							"    pm.expect(item).to.have.property('subtitle');\r",
+							"    pm.expect(item).to.have.property('p1');\r",
+							"    pm.expect(item).to.have.property('p2');\r",
+							"    pm.expect(item).to.have.property('p3');\r",
+							"    pm.expect(item).to.have.property('p4');\r",
+							"    pm.expect(item).to.have.property('googleFormLink');\r",
+							"\r",
+							"    // Check leader photo\r",
+							"    pm.expect(item).to.have.property('leaderPhoto');\r",
+							"    pm.expect(item.leaderPhoto).to.have.property('url');\r",
+							"\r",
+							"    // Similarly check memberPhotoOne and memberPhotoTwo\r",
+							"    pm.expect(item).to.have.property('memberPhotoOne');\r",
+							"    pm.expect(item.memberPhotoOne).to.have.property('url');\r",
+							"\r",
+							"    pm.expect(item).to.have.property('memberPhotoTwo');\r",
+							"    pm.expect(item.memberPhotoTwo).to.have.property('url');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/membership-pages?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"membership-pages"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "about-page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// First data item structure\r",
+							"pm.test(\"About page has all the correct fields inside the json\", function () {\r",
+							"    var item = jsonData.data[0];\r",
+							"\r",
+							"    // Check for basic properties\r",
+							"    pm.expect(item).to.have.property('id');\r",
+							"    pm.expect(item).to.have.property('documentId');\r",
+							"    pm.expect(item).to.have.property('p1');\r",
+							"    pm.expect(item).to.have.property('p2');\r",
+							"    pm.expect(item).to.have.property('createdAt');\r",
+							"    pm.expect(item).to.have.property('updatedAt');\r",
+							"    pm.expect(item).to.have.property('publishedAt');\r",
+							"    pm.expect(item).to.have.property('image');\r",
+							"\r",
+							"    // Check 'image' object properties\r",
+							"    pm.expect(item.image).to.be.an('object');\r",
+							"    pm.expect(item.image).to.have.property('id');\r",
+							"    pm.expect(item.image).to.have.property('name');\r",
+							"    pm.expect(item.image).to.have.property('url');\r",
+							"    pm.expect(item.image).to.have.property('formats');\r",
+							"\r",
+							"    // Check 'formats' inside 'image'\r",
+							"    pm.expect(item.image.formats).to.be.an('object');\r",
+							"    pm.expect(item.image.formats).to.have.property('thumbnail');\r",
+							"    pm.expect(item.image.formats).to.have.property('small');\r",
+							"    pm.expect(item.image.formats).to.have.property('medium');\r",
+							"    pm.expect(item.image.formats).to.have.property('large');\r",
+							"\r",
+							"    // Example: Check 'url' in 'thumbnail' format\r",
+							"    pm.expect(item.image.formats.thumbnail).to.have.property('url');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/about-pages?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"about-pages"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contact-form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"// First data item structure\r",
+							"pm.test(\"First data item has expected properties\", function () {\r",
+							"    var item = jsonData.data[0];\r",
+							"    pm.expect(item).to.have.property('id');\r",
+							"    pm.expect(item).to.have.property('ContactNumber');\r",
+							"    pm.expect(item).to.have.property('ContactEmail');\r",
+							"    pm.expect(item).to.have.property('ContactLocation');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/contacts?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"contacts"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"// Each event item structure\r",
+							"pm.test(\"Each event item has expected properties\", function () {\r",
+							"    jsonData.data.forEach(function(event) {\r",
+							"        pm.expect(event).to.have.property('id');\r",
+							"        pm.expect(event).to.have.property('Title');\r",
+							"        pm.expect(event).to.have.property('Date');\r",
+							"        pm.expect(event).to.have.property('Location');\r",
+							"        pm.expect(event).to.have.property('Description');\r",
+							"        pm.expect(event).to.have.property('Order');\r",
+							"        pm.expect(event).to.have.property('Image');\r",
+							"        // If Image is populated\r",
+							"        if(event.Image && event.Image.formats){\r",
+							"            pm.expect(event.Image.formats).to.have.property('medium');\r",
+							"            pm.expect(event.Image.formats.medium).to.have.property('url');\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/events?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"events"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FormSubmission",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'id' and other properties\r",
+							"pm.test(\"Response has expected properties\", function () {\r",
+							"        jsonData.data.forEach(function(item) {\r",
+							"            pm.expect(item).to.have.property('id');\r",
+							"            pm.expect(item).to.have.property('Name');\r",
+							"            pm.expect(item).to.have.property('Email');\r",
+							"            pm.expect(item).to.have.property('Message');\r",
+							"\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"// Attributes contain submitted data\r",
+							"pm.test(\"Response data matches submitted data\", function () {\r",
+							"    \r",
+							"    pm.expect(jsonData.Name).to.eql(pm.environment.get('submittedName'));\r",
+							"    pm.expect(jsonData.Email).to.eql(pm.environment.get('submittedEmail'));\r",
+							"    pm.expect(jsonData.Message).to.eql(pm.environment.get('submittedMessage'));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/form-submissions?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"form-submissions"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sponsor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"// Each sponsor item structure\r",
+							"pm.test(\"Each sponsor item has expected properties\", function () {\r",
+							"    jsonData.data.forEach(function(sponsor) {\r",
+							"        pm.expect(sponsor).to.have.property('id');\r",
+							"        pm.expect(sponsor).to.have.property('Description');\r",
+							"        pm.expect(sponsor).to.have.property('Image');\r",
+							"        pm.expect(sponsor).to.have.property('ImageAlternateText');\r",
+							"        // Check image URL\r",
+							"        if(sponsor.Image){\r",
+							"            pm.expect(sponsor.Image).to.have.property('url');\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/sponsors?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"sponsors"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TeamMember",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse JSON response\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Response has 'data' array\r",
+							"pm.test(\"Response has 'data' array\", function () {\r",
+							"    pm.expect(jsonData).to.have.property('data').that.is.an('array').with.length.above(0);\r",
+							"});\r",
+							"\r",
+							"// Each sponsor item structure\r",
+							"pm.test(\"Each sponsor item has expected properties\", function () {\r",
+							"    jsonData.data.forEach(function(member) {\r",
+							"        pm.expect(member).to.have.property('id');\r",
+							"        pm.expect(member).to.have.property('Name');\r",
+							"        pm.expect(member).to.have.property('Role');\r",
+							"        pm.expect(member).to.have.property('Image');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ef5f9302b17dc89d60a718efde9554a8b5b9ba6b6cbd747974babc5f4bb2d74278cbb4e3ac53e6800f714eeb8683ed64bc71e644c10264f738540d720cc96214f2a7ad1ce4152103362319c4bebc8f5c8a109714d2b413345285aa8684ab433395b04f7f081abff81dacbb56a0a84ecd0796d3f4621632b4a292e5a66fb2f4fd",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/team-members?populate=*",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"team-members"
+					],
+					"query": [
+						{
+							"key": "populate",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "79354c3818d5a6d5997e63870872705746a39d5bca64f5f1c0b5879a97a804b2015541d09cfd69dd221ec2fc970e6ca749d0d427cc08605676229aaf1d82909967697cbb9c8a3384d9a4ed300d1f7cbace0ab11efb184493720a77a25890d61b000d9e9f3b7f1e6032624976706ff650b0d8d81a962950d17308af3512ca2c51",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// Check if the status code is 200\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"    pm.response.to.have.status(200);\r",
+					"});\r",
+					"\r",
+					"// Parse JSON response\r",
+					"var jsonData = pm.response.json();\r",
+					"\r",
+					"// Check if the response contains \"data\" with at least one entry that has an \"id\"\r",
+					"pm.test(\"Every expected response contains data\", function () {\r",
+					"    pm.expect(jsonData.data).to.be.an(\"array\").that.is.not.empty;\r",
+					"});\r",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:1337",
+			"type": "string"
+		}
+	]
+}
